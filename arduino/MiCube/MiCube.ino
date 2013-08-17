@@ -9,8 +9,17 @@ boolean stringComplete = false;  // whether the string is complete
 byte buttons[] = {22, 23, 24, 25, 26, 27}; // the analog 0-5 pins are also known as 14-19
 // This handy macro lets us determine how big the array up above is, by checking the size
 #define NUMBUTTONS sizeof(buttons)
+
+#define BUTTON1 0x01
+#define BUTTON2 0x02
+#define BUTTON3 0x04
+#define BUTTON4 0x08
+#define BUTTON5 0x10
+#define BUTTON6 0x20
+
 // we will track if a button is just pressed, just released, or 'currently pressed' 
 volatile byte pressed[NUMBUTTONS], justpressed[NUMBUTTONS], justreleased[NUMBUTTONS];
+volatile byte buttons_changed, buttons_new, buttons_state;
 
 byte i;
 void setup() {  
@@ -25,53 +34,33 @@ void setup() {
     pinMode(buttons[i], INPUT);
     digitalWrite(buttons[i], HIGH);
   }
+}
 
 
 void check_switches()
 {
+  buttons_new = 0;
+  buttons_changed = 0;
+  
   for (i=0; i< NUMBUTTONS; i++) {
-    pressed[i] = digitalRead(buttons[i]);
+    if(digitalRead(buttons[i]) == 0){
+      buttons_new |= (1 << i);
+    }
   }
   
-  if((pressed[0] == 0)){
-    Serial.println("Button 1 Pressed")  
-  }
-  else{
-    Serial.println("Button 1 Released")
-  }
-  if((pressed[1] == 0)){
-    Serial.println("Button 2 Pressed")
-  }
-  else{
-    Serial.println("Button 2 Released")
-  }
-  if((pressed[2] == 0)){
-    Serial.println("Button 3 Pressed")
-  }
-  else{
-    Serial.println("Button 3 Released")
-  }
-  if((pressed[3] == 0)){
-    Serial.println("Button 4 Pressed")
-  }
-  else{
-    Serial.println("Button 4 Released")
-  }
-  if((pressed[4] == 0)){
-    Serial.println("Button 5 Pressed")
-  }
-  else{
-    Serial.println("Button 5 Released")
-  }
-  if((pressed[5] == 0)){
-    Serial.println("Button 6 Pressed")
-  }
-  else{
-    Serial.println("Button 6 Released")
-  }
+  buttons_changed = buttons_state ^ buttons_new;
+  buttons_state = buttons_new;
+
+//  Serial.println(buttons_new);
+//  delay(100);
+  
 }
 
 
 void loop() {
-  check_switches();  
+  check_switches();
+  if(buttons_changed != 0){
+    Serial.println("Button change");
+  }  
+  delay(100);
 }
