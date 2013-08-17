@@ -60,7 +60,13 @@ void check_switches()
 void loop() {
   check_switches();
   if(buttons_changed != 0){
-    Serial.println("Button change");
+    for (i=0; i < NUMBUTTONS; i++){
+      if((bitRead(buttons_changed,i) == 1) && (bitRead(buttons_state,i) == 1)){
+          Serial.println(i+1);
+          delay(100);
+      }
+    }    
   }  
+
   delay(100);
 }
