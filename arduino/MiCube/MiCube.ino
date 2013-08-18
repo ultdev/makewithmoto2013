@@ -21,6 +21,17 @@ byte buttons[] = {22, 23, 24, 25, 26, 27}; // the analog 0-5 pins are also known
 volatile byte pressed[NUMBUTTONS], justpressed[NUMBUTTONS], justreleased[NUMBUTTONS];
 volatile byte buttons_changed, buttons_new, buttons_state;
 
+const int xpin = A0;         
+const int ypin = A1;             
+const int zpin = A2;
+
+int x,y,z,last_x,last_y,last_z;
+
+// const float threshold = 120;
+const float threshold_x = 180;
+const float threshold_y = 180;
+const float threshold_z = 180;
+
 byte i;
 void setup() {  
   // set up serial port
@@ -66,7 +77,45 @@ void loop() {
           delay(100);
       }
     }    
-  }  
+  } 
+  x = analogRead(xpin);
+  y = analogRead(ypin);
+  z = analogRead(zpin); 
+  
+  float speed_x = (x-last_x);
+  float speed_y = (y-last_y);
+  float speed_z = (z-last_z);
+  
+ if (speed_x > threshold_x) {
+   Serial.print("1");
+ } else if (speed_x < -threshold_x) {
+   Serial.print("2");
+ } else {
+//   Serial.print("3");
+ }
+  delay(50);
+ 
+ if (speed_y > threshold_y) {
+   Serial.print("1");
+ } else if (speed_y < -threshold_y) {
+   Serial.print("2");
+ } else {
+//   Serial.print("3");
+ } 
+   delay(50);
+   
+ if (speed_z > threshold_z) {
+   Serial.println("1");
+ } else if (speed_z < -threshold_z) {
+   Serial.println("2");
+ } else {
+//   Serial.println("3");
+ }
+   delay(50);
+
+  last_x=x;
+  last_y=y;
+  last_z=z;
 
   delay(100);
 }

@@ -65,7 +65,7 @@ makr.start(function(data) {
                 media.playSound("Drum_Snare_82733_sandyrb_12x8_snare_m201_03.ogg");
                 break;
             case 6:
-                media.playSound("Piano_A_68437_pinkyfinger_piano_a.ogg"); // FIXME: Not a drum
+                media.playSound("Drum_Tom_129843_quartertone_tt12x8_hp_rs_v01.ogg");
                 break;
         }    
     } else if (selectedInstrument == 3) {
@@ -77,7 +77,7 @@ makr.start(function(data) {
                 media.playSound("Guitar_Chord_C_26380_staile_c.ogg");
                 break;
             case 3:
-                media.playSound("100BPM_169311_frediohead_100bpm_2_measures_1.ogg"); // FIXME
+                media.playSound("Guitar_Chord_D_26381_staile_d.ogg");
                 break;
             case 4:
                 media.playSound("Guitar_Chord_D7_26382_staile_d7.ogg");
@@ -108,6 +108,42 @@ makr.start(function(data) {
                 break;
             case 6:
                 media.playSound("Sheep_animals058.ogg");
+                break;
+        }
+    }
+    
+    if(parseInt(data) > 100){
+        // X
+        switch(parseInt(data) / 100){
+            case 1: // pos
+                media.playSound("Drum_Floor_Tom_41438_sandyrb_srbm_tom_002.ogg");
+                break;
+            case 2: // neg
+                media.playSound("Drum_Hi_Hat_43373_freakrush_hihat3.ogg");
+                break;
+            case 3: //zero
+                break;
+        }
+        // Y
+        switch((parseInt(data) % 100) / 10){
+            case 1:
+                media.playSound("Drum_Kick_Drum_Hard_191292_nabz871_kick_drum_hard_.ogg");
+                break;
+            case 2:
+                media.playSound("Drum_Open_Hi_Hat_104226_minorr_hhat_paiste_302_14_.ogg");
+                break;
+            case 3:
+                break;
+        }
+        // Z
+        switch(parseInt(data) % 10){
+            case 1:
+                media.playSound("Drum_Snare_82733_sandyrb_12x8_snare_m201_03.ogg");
+                break;
+            case 2:
+                media.playSound("Drum_Tom_129843_quartertone_tt12x8_hp_rs_v01.ogg");
+                break;
+            case 3:
                 break;
         }
     }
